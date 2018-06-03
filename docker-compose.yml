@@ -1,7 +1,7 @@
 version: '2'
 services:
     coderush:
-        image: coderush
+        image: algorhythm
         ports:
             - "80:80"
         environment: 
