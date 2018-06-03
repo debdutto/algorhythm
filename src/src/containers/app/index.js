@@ -1,16 +1,16 @@
 import React from "react";
 import { Route, Link } from "react-router-dom";
-import Test2 from "../Fibonacci";
+import Fibonacci from "../fibonacci";
 
 const App = () => (
   <div>
     <header>
-      <Link to="/Fibonacci">Fibonacci</Link>
+      <Link to="/fibonacci">Fibonacci</Link>
     </header>
 
     <main>
       <Route exact path="/" />
-      <Route exact path="/Fibonacci" component={Test2} />
+      <Route exact path="/fibonacci" component={Fibonacci} />
     </main>
   </div>
 );

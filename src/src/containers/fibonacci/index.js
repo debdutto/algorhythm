@@ -34,7 +34,6 @@ class Fibonacci extends React.Component {
 
   componentDidMount() {
     console.log("MIDIObj", MIDI)
-
     MIDI.loadPlugin({
       soundfontUrl: process.env.PUBLIC_URL + "/soundfont/",
       instrument: "acoustic_grand_piano",
