@@ -1,0 +1,11 @@
+version: '2'
+services:
+    coderush:
+        image: coderush
+        ports:
+            - "80:80"
+        environment: 
+            - NODE_ENV=development
+            - TIER=development
+        volumes: 
+            - ./src:/home/code
