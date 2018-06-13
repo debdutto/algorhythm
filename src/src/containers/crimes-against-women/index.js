@@ -4,7 +4,7 @@ import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import MIDI from "midi.js"
 import scale from 'music-scale'
-
+import crimeData from './crime-data.json'
 import {
   increment,
   incrementAsync,
@@ -12,7 +12,7 @@ import {
   decrementAsync
 } from "../../modules/counter"
 
-class NthSum extends React.Component {
+class Pi extends React.Component {
   render() {
     return (
       <div>
@@ -42,6 +42,7 @@ class NthSum extends React.Component {
         console.log(state, progress)
       },
       onsuccess: function () {
+        // console.log(piPlaces)
         prepareNotes("C")
       }
     })
@@ -51,7 +52,7 @@ class NthSum extends React.Component {
     play = true
     if (play) {
       setTimeout(() => {
-        playMusic(1, 1)
+        playMusic(getCrimesAtN(1), getCrimesAtN(2), 1)
       }, 500)
     }
   }
@@ -65,7 +66,7 @@ const firstNum = 1
 const midNum = 1
 const lastNum = 2
 
-const baseBarCount = Number.POSITIVE_INFINITY
+const baseBarCount = crimeData.crimes.length
 
 let barCount = baseBarCount
 
@@ -92,27 +93,31 @@ const playNote = (note, velocity, delay) => {
   MIDI.noteOff(0, MIDI.keyToNote[note], barTime)
 }
 
-const playMusic = (sum, n) => {
+const playMusic = (current, next, n) => {
 
-  playNote(notes[sum % 21], (sum % 97) + 30, delay(sum % 8))
-  playNote(notes[(sum % 11) + 10], (sum % 97) + 30, delay(sum % 4))
+  // playNote(notes[sum % 21], (sum % 97) + 30, delay(sum % 8))
+  // playNote(notes[(sum % 11) + 10], (sum % 97) + 30, delay(sum % 4))
 
-  let nextSum = generateNthSum(n + 1)
-  if (nextSum < Number.MAX_SAFE_INTEGER && --barCount > 0 && play) {
+  playNote(notes[current % 21], (current % 97) + 30, delay(current % 8))
+
+  playNote(notes[next % 21], (next % 97) + 30, delay(next % 8))
+  // console.log(n)
+  if (n <= crimeData.crimes.length && --barCount > 0 && play) {
     setTimeout(() => {
-      playMusic(nextSum, n + 1)
+      playMusic(next, getCrimesAtN(n+1), n+1)
     }, barTime)
+    console.log(barCount, n)
   } else if (play) {
-    console.log("seriesReset", nextSum)
+    console.log("seriesReset", n)
     barCount = baseBarCount
     setTimeout(() => {
-      playMusic(1, 1)
+      playMusic(getCrimesAtN(1), getCrimesAtN(2), 1)
     }, barTime)
   }
 }
 
-const generateNthSum = (n) => {
-  return (n * (n + 1)) / 2
+const getCrimesAtN = (n) => {
+  return crimeData.crimes[n-1]
 }
 
 const mapStateToProps = state => ({
@@ -133,4 +138,4 @@ const mapDispatchToProps = dispatch =>
     dispatch
   )
 
-export default connect(mapStateToProps, mapDispatchToProps)(NthSum)
+export default connect(mapStateToProps, mapDispatchToProps)(Pi)

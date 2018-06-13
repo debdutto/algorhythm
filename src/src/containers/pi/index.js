@@ -66,7 +66,7 @@ const firstNum = 1
 const midNum = 1
 const lastNum = 2
 
-const baseBarCount = Number.POSITIVE_INFINITY
+const baseBarCount = piPlaces.pi.length
 
 let barCount = baseBarCount
 
