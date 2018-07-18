@@ -72,7 +72,7 @@ let barCount = baseBarCount
 
 const BPM = 80
 const barTime = 60000 / BPM
-const delay = (n) => (n * 0.125 * barTime)
+const delay = (n) => (n * 0.25 * barTime)
 const notes = []
 const prepareNotes = (selectedScale, startOctave) => {
   selectedScale = selectedScale ? selectedScale : 'A'
@@ -98,13 +98,18 @@ const playMusic = (current, next, n) => {
   // playNote(notes[sum % 21], (sum % 97) + 30, delay(sum % 8))
   // playNote(notes[(sum % 11) + 10], (sum % 97) + 30, delay(sum % 4))
 
-  playNote(notes[current % 21], (current % 97) + 30, delay(current % 8))
+  if (!(n % 4)) {
+    console.log("Played Bar")
+    playNote(notes[next - (current / 2) % 21], (next - (current / 2) % 30) + 97, delay(next - (current / 2) % 4))
+  }
 
-  playNote(notes[next % 21], (next % 97) + 30, delay(next % 8))
+  playNote(notes[current % 21], (current % 77) + 50, delay(current % 4))
+
+  playNote(notes[next - current % 21], (next - current % 97) + 30, delay(next - current % 4))
   console.log(n)
   if (n <= piPlaces.pi.length && --barCount > 0 && play) {
     setTimeout(() => {
-      playMusic(next, getPiAtN(n+1), n+1)
+      playMusic(next, getPiAtN(n + 1), n + 1)
     }, barTime)
   } else if (play) {
     console.log("seriesReset", n)
@@ -116,7 +121,7 @@ const playMusic = (current, next, n) => {
 }
 
 const getPiAtN = (n) => {
-  return piPlaces.pi[n-1]
+  return piPlaces.pi[n - 1]
 }
 
 const mapStateToProps = state => ({
