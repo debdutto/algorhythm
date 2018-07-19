@@ -49,7 +49,6 @@ literacyRate.data.forEach(processliteracyData)
 
 const consolidated = JSON.stringify(literacyData)
 
-
 fs.writeFile("literacy-rate-1991-2011.json", consolidated, 'utf8', function (err) {
     if (err) {
         return console.log(err)
