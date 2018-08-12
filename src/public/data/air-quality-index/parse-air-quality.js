@@ -43,8 +43,6 @@ const parseAirQuality = (dataArray, dateIndex, dateFormat, pm10Index) => {
         if (!isNaN(parseInt(pm10Concentration))) {
             delhiAirQualityData[date.year()][dataMonth].push(parseInt(pm10Concentration))
         }
-
-        // console.log(element, date.year())
     })
 }
 
@@ -108,40 +106,36 @@ const aggregateYearData = (dataSet) => {
 
 delhiAirQualityData = aggregateYearData(delhiAirQualityData)
 
-console.log(delhiAirQualityData)
+const saveConsolidatedDataAsJson = (dataJson, name) => {
+    const consolidated = JSON.stringify(dataJson)
 
-const consolidated = JSON.stringify(delhiAirQualityData)
+    fs.writeFile(name, consolidated, 'utf8', function (err) {
+        if (err) {
+            return console.log(err)
+        }
+        console.log("The file was saved!")
+    })
+}
 
-fs.writeFile("air-quality-index-delhi-2009-2016.json", consolidated, 'utf8', function (err) {
-    if (err) {
-        return console.log(err)
-    }
-    console.log("The file was saved!")
+saveConsolidatedDataAsJson(delhiAirQualityData, "air-quality-index-delhi-2009-2016.json")
+
+let years = Object.keys(delhiAirQualityData)
+let fields = ["mean", "median"]
+
+let delhiAirQualityDataArr = []
+
+years.forEach(year => {
+    Object.keys(delhiAirQualityData[year]).forEach(month => {
+        fields.forEach(field => {
+            if (delhiAirQualityData[year][month][field]) {
+                delhiAirQualityDataArr.push(delhiAirQualityData[year][month][field])
+            }
+        })
+    })
 })
 
-// let states = Object.keys(delhiAirQualityData)
-// let years = ["1991", "2001", "2011"]
-// let fields = ["male", "female", "persons"]
+const content = JSON.stringify({
+    airQualityIndex: delhiAirQualityDataArr
+})
 
-// let delhiAirQualityDataArr = []
-
-// years.forEach(year => {
-//     fields.forEach(field => {
-//         states.forEach(state => {
-//             if (delhiAirQualityData[state][year][field]) {
-//                 delhiAirQualityDataArr.push(parseInt(delhiAirQualityData[state][year][field]))
-//             }
-//         })
-//     })
-// })
-
-// const content = JSON.stringify({
-//     literacy: delhiAirQualityDataArr
-// })
-
-// fs.writeFile("literacy-rate.json", content, 'utf8', function (err) {
-//     if (err) {
-//         return console.log(err)
-//     }
-//     console.log("The file was saved!")
-// })
+saveConsolidatedDataAsJson(content, "air-quality-index-delhi.json")
