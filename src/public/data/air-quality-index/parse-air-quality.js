@@ -134,8 +134,8 @@ years.forEach(year => {
     })
 })
 
-const content = JSON.stringify({
+const content = {
     airQualityIndex: delhiAirQualityDataArr
-})
+}
 
 saveConsolidatedDataAsJson(content, "air-quality-index-delhi.json")
