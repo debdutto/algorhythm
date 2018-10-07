@@ -43,7 +43,7 @@ class Pi extends React.Component {
       },
       onsuccess: function () {
         console.log(piPlaces)
-        prepareNotes("C")
+        prepareNotes("C", 3)
       }
     })
   }
@@ -66,7 +66,7 @@ const firstNum = 1
 const midNum = 1
 const lastNum = 2
 
-const baseBarCount = piPlaces.pi.length
+const baseBarCount = 80
 
 let barCount = baseBarCount
 
@@ -74,16 +74,18 @@ const BPM = 80
 const barTime = 60000 / BPM
 const delay = (n) => (n * 0.25 * barTime)
 const notes = []
-const prepareNotes = (selectedScale, startOctave) => {
+const prepareNotes = (selectedScale, startOctave, selectedTone) => {
   selectedScale = selectedScale ? selectedScale : 'A'
-  startOctave = startOctave ? startOctave : 3
-  let octave = startOctave ? startOctave : 3
+  startOctave = startOctave ? startOctave : 2
+  selectedTone = selectedTone ? selectedTone : 'major'
+  let octave = startOctave ? startOctave : 2
   // let tempNotes = 
-  for (octave; octave < startOctave + 3; octave++) {
-    notes.push(...scale('major', selectedScale + octave))
+  for (octave; octave < startOctave + 5; octave++) {
+    let selectedScaleArr = scale(selectedTone, selectedScale + octave)
+    notes.push(...transformSharps(selectedScaleArr))
   }
   // for()
-  console.log(notes, notes.length)
+  console.log("Notes: ", notes, notes.length)
 }
 
 let play = true
@@ -93,6 +95,31 @@ const playNote = (note, velocity, delay) => {
   MIDI.noteOff(0, MIDI.keyToNote[note], barTime)
 }
 
+const transformSharps = (scaleArr) => {
+  let noteRegex = /([A-G])(#)(\d{1,2})/
+  return scaleArr.map(el => {
+    return el.replace(noteRegex, (_1, p1, _3, p3) => {
+      return replaceWithFlat(p1, p3)
+    })
+  })
+}
+
+const replaceWithFlat = (note, octave) => {
+  let nextNote = nextLetter(note.charAt(0))
+  return (nextNote+'b'+octave)
+}
+
+const nextLetter = (s) => {
+  return s.replace(/([a-zA-Z])[^a-zA-Z]*$/, function(a){
+      var c= a.charCodeAt(0);
+      switch(c){
+          case 71: return 'A'; // returning for "G"
+          case 103: return 'A'; // returning for "G"
+          default: return String.fromCharCode(++c);
+      }
+  });
+}
+
 const playMusic = (current, next, n) => {
 
   // playNote(notes[sum % 21], (sum % 97) + 30, delay(sum % 8))
@@ -100,12 +127,12 @@ const playMusic = (current, next, n) => {
 
   if (!(n % 4)) {
     console.log("Played Bar")
-    playNote(notes[next - (current / 2) % 21], (next - (current / 2) % 30) + 97, delay(next - (current / 2) % 4))
+    playNote(notes[next - (current / 2) % 35], (next - (current / 2) % 30) + 97, delay(next - (current / 2) % 4))
   }
 
-  playNote(notes[current % 21], (current % 77) + 50, delay(current % 4))
+  playNote(notes[current % 35], (current % 77) + 50, delay(current % 4))
 
-  playNote(notes[next - current % 21], (next - current % 97) + 30, delay(next - current % 4))
+  playNote(notes[next - current % 35], (next - current % 97) + 30, delay(next - current % 4))
   console.log(n)
   if (n <= piPlaces.pi.length && --barCount > 0 && play) {
     setTimeout(() => {
