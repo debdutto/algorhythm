@@ -64,10 +64,6 @@ class Pi extends React.Component {
   }
 }
 
-const firstNum = 1
-const midNum = 1
-const lastNum = 2
-
 const baseBarCount = crimeData.crimes.length
 const leadInCount = 0
 let barCount = baseBarCount
@@ -87,10 +83,6 @@ const prepareNotes = (selectedScale, startOctave) => {
   // for()
   console.log(notes, notes.length)
 }
-
-let riffs = [{
-
-}]
 
 let play = true
 

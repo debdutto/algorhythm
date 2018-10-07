@@ -62,10 +62,6 @@ class Pi extends React.Component {
   }
 }
 
-const firstNum = 1
-const midNum = 1
-const lastNum = 2
-
 const baseBarCount = 80
 
 let barCount = baseBarCount
