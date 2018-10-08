@@ -16,13 +16,13 @@ const App = () => (
         rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"
       />
-      <Link to="/crimes-against-women">Crimes Against Women</Link>
+      {/* <Link to="/crimes-against-women">Crimes Against Women</Link>
       <Link to="/suicide-rates">Suicide Rates</Link>
       <Link to="/literacy-rates">Literacy Rates</Link>
       <Link to="/air-quality">Air Quality</Link>
       <Link to="/fibonacci">Fibonacci </Link>
       <Link to="/n-th-sum">NthSum </Link>
-      <Link to="/pi">Pi </Link>
+      <Link to="/pi">Pi </Link> */}
       <Songs />
     </header>
 
