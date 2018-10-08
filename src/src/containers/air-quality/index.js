@@ -4,7 +4,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import MIDI from "midi.js";
 import { prepareNotes } from "../../modules/music";
-import suicideData from "./suicide-data.json";
+import AirQualityData from "./air-quality-index-delhi.json";
 import normalize from "../../modules/normalize";
 
 import {
@@ -14,7 +14,7 @@ import {
   decrementAsync
 } from "../../modules/counter";
 
-class SuicideRates extends React.Component {
+class AirQuality extends React.Component {
   render() {
     return (
       <div>
@@ -37,8 +37,12 @@ class SuicideRates extends React.Component {
       },
       onsuccess: function() {
         // console.log(piPlaces)
-        suicideData.suicides = normalize(suicideData.suicides, 0, 100);
-        notes = prepareNotes("B", 2, "major", 5);
+        AirQualityData.airQualityIndex = normalize(
+          AirQualityData.airQualityIndex,
+          0,
+          100
+        );
+        notes = prepareNotes("B");
       }
     });
   }
@@ -48,7 +52,7 @@ class SuicideRates extends React.Component {
     if (play) {
       setTimeout(() => {
         playLeadIn(0, () => {
-          playMusic(getLiteracyAtN(1), getLiteracyAtN(2), 1);
+          playMusic(getAirQUalityAtN(1), getAirQUalityAtN(2), 1);
         });
       }, 500);
     }
@@ -59,7 +63,7 @@ class SuicideRates extends React.Component {
   }
 }
 
-const baseBarCount = suicideData.suicides.length;
+const baseBarCount = AirQualityData.airQualityIndex.length;
 const leadInCount = 0;
 let barCount = baseBarCount;
 
@@ -108,7 +112,11 @@ const playMusic = (current, next, n) => {
   }
 
   // playNote(notes[current % notes.length], (current % 97) + 30, 0)
-  playNote(notes[current % notes.length], current % 97, delay(current % 8));
+  playNote(
+    notes[current % notes.length],
+    (current % 97) + 30,
+    delay(current % 8)
+  );
   playNote(
     notes[(next * current) % notes.length],
     ((next * current) % 97) + 30,
@@ -120,22 +128,22 @@ const playMusic = (current, next, n) => {
     delay((next + current) % ((next + current) % 8))
   );
   // console.log(n)
-  if (n <= suicideData.suicides.length && --barCount > 0 && play) {
+  if (n <= AirQualityData.airQualityIndex.length && --barCount > 0 && play) {
     setTimeout(() => {
-      playMusic(next, getLiteracyAtN(n + 1), n + 1);
+      playMusic(next, getAirQUalityAtN(n + 1), n + 1);
     }, barTime);
     // console.log(barCount, n)
   } else if (play) {
     console.log("seriesReset", n);
     barCount = baseBarCount;
     setTimeout(() => {
-      playMusic(getLiteracyAtN(1), getLiteracyAtN(2), 1);
+      playMusic(getAirQUalityAtN(1), getAirQUalityAtN(2), 1);
     }, barTime);
   }
 };
 
-const getLiteracyAtN = n => {
-  return suicideData.suicides[n - 1];
+const getAirQUalityAtN = n => {
+  return AirQualityData.airQualityIndex[n - 1];
 };
 
 const mapStateToProps = state => ({
@@ -159,4 +167,4 @@ const mapDispatchToProps = dispatch =>
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SuicideRates);
+)(AirQuality);
