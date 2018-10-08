@@ -6,7 +6,7 @@
     "husky": "^0.14.3",
     "lint-staged": "^7.0.0",
     "prettier": "^1.11.0",
-    "react-scripts": "^1.0.17"
+    "react-scripts": "^2.0.4"
   },
   "dependencies": {
     "jstat": "^1.7.1",
@@ -37,5 +37,11 @@
       "prettier --write",
       "git add"
     ]
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

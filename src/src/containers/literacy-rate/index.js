@@ -3,10 +3,9 @@ import { push } from "react-router-redux";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import MIDI from "midi.js";
-import scale from "music-scale";
-import crimeData from "./crime-data.json";
+import { prepareNotes } from "../../modules/music";
+import literacyData from "./literacy-rate.json";
 import normalize from "../../modules/normalize";
-import transformSharps from "../../modules/transform-sharps";
 import {
   increment,
   incrementAsync,
@@ -14,7 +13,7 @@ import {
   decrementAsync
 } from "../../modules/counter";
 
-class CrimesAgainstWomen extends React.Component {
+class LiteracyRates extends React.Component {
   render() {
     return (
       <div>
@@ -37,8 +36,8 @@ class CrimesAgainstWomen extends React.Component {
       },
       onsuccess: function() {
         // console.log(piPlaces)
-        crimeData.crimes = normalize(crimeData.crimes);
-        prepareNotes("B");
+        literacyData.literacy = normalize(literacyData.literacy, 0, 34);
+        notes = prepareNotes("B");
       }
     });
   }
@@ -48,7 +47,7 @@ class CrimesAgainstWomen extends React.Component {
     if (play) {
       setTimeout(() => {
         playLeadIn(0, () => {
-          playMusic(getCrimesAtN(1), getCrimesAtN(2), 1);
+          playMusic(getLiteracyAtN(1), getLiteracyAtN(2), 1);
         });
       }, 500);
     }
@@ -59,27 +58,14 @@ class CrimesAgainstWomen extends React.Component {
   }
 }
 
-const baseBarCount = crimeData.crimes.length;
+const baseBarCount = literacyData.literacy.length;
 const leadInCount = 0;
 let barCount = baseBarCount;
 
-const BPM = 80;
+const BPM = 70;
 const barTime = 60000 / BPM;
 const delay = n => n * 0.25 * barTime;
-const notes = [];
-const prepareNotes = (selectedScale, startOctave, selectedTone) => {
-  selectedScale = selectedScale ? selectedScale : "A";
-  startOctave = startOctave ? startOctave : 2;
-  selectedTone = selectedTone ? selectedTone : "major";
-  let octave = startOctave ? startOctave : 2;
-  // let tempNotes =
-  for (octave; octave < startOctave + 5; octave++) {
-    let selectedScaleArr = scale(selectedTone, selectedScale + octave);
-    notes.push(...transformSharps(selectedScaleArr));
-  }
-  // for()
-  console.log("Notes: ", notes, notes.length);
-};
+let notes = [];
 
 let play = true;
 
@@ -121,11 +107,7 @@ const playMusic = (current, next, n) => {
   }
 
   // playNote(notes[current % notes.length], (current % 97) + 30, 0)
-  playNote(
-    notes[current % notes.length],
-    current % 97,
-    delay(current % (current % 8))
-  );
+  playNote(notes[current % notes.length], current % 97, delay(current % 8));
   playNote(
     notes[(next * current) % notes.length],
     ((next * current) % 97) + 30,
@@ -137,22 +119,22 @@ const playMusic = (current, next, n) => {
     delay((next + current) % ((next + current) % 8))
   );
   // console.log(n)
-  if (n <= crimeData.crimes.length && --barCount > 0 && play) {
+  if (n <= literacyData.literacy.length && --barCount > 0 && play) {
     setTimeout(() => {
-      playMusic(next, getCrimesAtN(n + 1), n + 1);
+      playMusic(next, getLiteracyAtN(n + 1), n + 1);
     }, barTime);
-    console.log(barCount, n);
+    // console.log(barCount, n)
   } else if (play) {
     console.log("seriesReset", n);
     barCount = baseBarCount;
     setTimeout(() => {
-      playMusic(getCrimesAtN(1), getCrimesAtN(2), 1);
+      playMusic(getLiteracyAtN(1), getLiteracyAtN(2), 1);
     }, barTime);
   }
 };
 
-const getCrimesAtN = n => {
-  return crimeData.crimes[n - 1];
+const getLiteracyAtN = n => {
+  return literacyData.literacy[n - 1];
 };
 
 const mapStateToProps = state => ({
@@ -176,4 +158,4 @@ const mapDispatchToProps = dispatch =>
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CrimesAgainstWomen);
+)(LiteracyRates);
