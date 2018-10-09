@@ -3,10 +3,9 @@ import { push } from "react-router-redux";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import MIDI from "midi.js";
-import scale from "music-scale";
 import crimeData from "./crime-data.json";
 import normalize from "../../modules/normalize";
-import transformSharps from "../../modules/transform-sharps";
+import { prepareNotes } from "../../modules/music";
 import {
   increment,
   incrementAsync,
@@ -37,8 +36,8 @@ class CrimesAgainstWomen extends React.Component {
       },
       onsuccess: function() {
         // console.log(piPlaces)
-        crimeData.crimes = normalize(crimeData.crimes);
-        prepareNotes("B");
+        // crimeData.crimes = normalize(crimeData.crimes);
+        notes = prepareNotes("B", 2, "major", 3);
       }
     });
   }
@@ -66,20 +65,7 @@ let barCount = baseBarCount;
 const BPM = 80;
 const barTime = 60000 / BPM;
 const delay = n => n * 0.25 * barTime;
-const notes = [];
-const prepareNotes = (selectedScale, startOctave, selectedTone) => {
-  selectedScale = selectedScale ? selectedScale : "A";
-  startOctave = startOctave ? startOctave : 2;
-  selectedTone = selectedTone ? selectedTone : "major";
-  let octave = startOctave ? startOctave : 2;
-  // let tempNotes =
-  for (octave; octave < startOctave + 5; octave++) {
-    let selectedScaleArr = scale(selectedTone, selectedScale + octave);
-    notes.push(...transformSharps(selectedScaleArr));
-  }
-  // for()
-  console.log("Notes: ", notes, notes.length);
-};
+let notes = [];
 
 let play = true;
 
@@ -103,7 +89,7 @@ const playLeadIn = (n, callback) => {
 const playMusic = (current, next, n) => {
   // playNote(notes[sum % notes.length], (sum % 97) + 30, delay(sum % 8))
   // playNote(notes[(sum % 11) + 10], (sum % 97) + 30, delay(sum % 4))
-
+  console.log(current);
   if (!(n % 4)) {
     if (current > next) {
       playNote(
@@ -118,23 +104,28 @@ const playMusic = (current, next, n) => {
         0
       );
     }
+    playNote(notes[(2 * current) % notes.length], ((2 * current) % 37) + 90, 0);
   }
 
   // playNote(notes[current % notes.length], (current % 97) + 30, 0)
+  console.log(
+    notes[(next + current) % notes.length],
+    notes[current % notes.length]
+  );
   playNote(
     notes[current % notes.length],
     current % 97,
-    delay(current % (current % 8))
+    delay(current % (current % 16))
   );
   playNote(
     notes[(next * current) % notes.length],
     ((next * current) % 97) + 30,
-    delay((next * current) % ((next * current) % 8))
+    delay((next * current) % ((next * current) % 16))
   );
   playNote(
     notes[(next + current) % notes.length],
     ((next + current) % 97) + 30,
-    delay((next + current) % ((next + current) % 8))
+    delay((next + current) % ((next + current) % 16))
   );
   // console.log(n)
   if (n <= crimeData.crimes.length && --barCount > 0 && play) {

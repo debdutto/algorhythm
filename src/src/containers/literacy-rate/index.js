@@ -36,8 +36,8 @@ class LiteracyRates extends React.Component {
       },
       onsuccess: function() {
         // console.log(piPlaces)
-        literacyData.literacy = normalize(literacyData.literacy, 0, 34);
-        notes = prepareNotes("B");
+        literacyData.literacy = normalize(literacyData.literacy, 0, 100);
+        notes = prepareNotes("B", 2, "major", 4);
       }
     });
   }
@@ -108,11 +108,11 @@ const playMusic = (current, next, n) => {
 
   // playNote(notes[current % notes.length], (current % 97) + 30, 0)
   playNote(notes[current % notes.length], current % 97, delay(current % 8));
-  playNote(
-    notes[(next * current) % notes.length],
-    ((next * current) % 97) + 30,
-    delay((next * current) % ((next * current) % 8))
-  );
+  // playNote(
+  //   notes[(next * current) % notes.length],
+  //   ((next * current) % 97) + 30,
+  //   delay((next * current) % ((next * current) % 8))
+  // );
   playNote(
     notes[(next + current) % notes.length],
     ((next + current) % 97) + 30,

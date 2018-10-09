@@ -37,12 +37,12 @@ class AirQuality extends React.Component {
       },
       onsuccess: function() {
         // console.log(piPlaces)
+        notes = prepareNotes("B", 2, "major", 4);
         AirQualityData.airQualityIndex = normalize(
           AirQualityData.airQualityIndex,
           0,
           100
         );
-        notes = prepareNotes("B");
       }
     });
   }
@@ -117,11 +117,11 @@ const playMusic = (current, next, n) => {
     (current % 97) + 30,
     delay(current % 8)
   );
-  playNote(
-    notes[(next * current) % notes.length],
-    ((next * current) % 97) + 30,
-    delay((next * current) % ((next * current) % 8))
-  );
+  // playNote(
+  //   notes[(next * current) % notes.length],
+  //   ((next * current) % 97) + 30,
+  //   delay((next * current) % ((next * current) % 8))
+  // );
   playNote(
     notes[(next + current) % notes.length],
     ((next + current) % 97) + 30,

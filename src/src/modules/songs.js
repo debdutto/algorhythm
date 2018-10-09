@@ -1,4 +1,4 @@
-export const PiSong = [
+export const Songs = [
   {
     url: "tracks/Sample.mp3",
     cover: false,
