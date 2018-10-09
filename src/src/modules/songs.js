@@ -28,7 +28,7 @@ export const SongList = [
     cover: false,
     artist: {
       name: "##",
-      song: "Air Quality (Delhi)"
+      song: "Air Quality"
     }
   }
 ];
