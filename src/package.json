@@ -1,12 +1,12 @@
 {
-  "name": "create-react-app-redux",
+  "name": "algorhythm",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
     "husky": "^0.14.3",
     "lint-staged": "^7.0.0",
     "prettier": "^1.11.0",
-    "react-scripts": "^1.0.17"
+    "react-scripts": "^2.0.4"
   },
   "dependencies": {
     "jstat": "^1.7.1",
@@ -14,6 +14,7 @@
     "moment": "^2.22.2",
     "music-scale": "^1.2.0",
     "react": "^16.2.0",
+    "react-cl-audio-player": "^2.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
@@ -37,5 +38,11 @@
       "prettier --write",
       "git add"
     ]
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
