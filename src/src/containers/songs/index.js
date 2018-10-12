@@ -1,36 +1,31 @@
 import React from "react";
-import { push } from "react-router-redux";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import AudioPlayer from "react-cl-audio-player";
+import AudioPlayer from "../../elements/AudioPlayer";
 import { SongList } from "../../modules/songs";
-import {
-  increment,
-  incrementAsync,
-  decrement,
-  decrementAsync
-} from "../../modules/counter";
+import { Link } from "react-router-dom";
+import Grid from "@material-ui/core/Grid";
 
 const songStyles = {
-  width: "50vw",
-  marginTop: "5vh",
-  marginLeft: "auto",
-  marginRight: "auto",
-  float: "left"
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "100vh"
 };
 
 class Songs extends React.Component {
   render() {
     return (
-      <div>
-        {SongList.map(el => {
-          let song = [el];
-          return (
-            <div style={songStyles}>
-              <AudioPlayer songs={song} />
-            </div>
-          );
-        })}
+      <div style={songStyles}>
+        <Grid container spacing={24} key="songContainer">
+          {SongList.map(el => {
+            let song = [el];
+            return (
+              <Grid item xs={3} key={el.url}>
+                <AudioPlayer songs={song} />
+              </Grid>
+            );
+          })}
+        </Grid>
       </div>
     );
   }
@@ -42,19 +37,4 @@ const mapStateToProps = state => ({
   isDecrementing: state.counter.isDecrementing
 });
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      increment,
-      incrementAsync,
-      decrement,
-      decrementAsync,
-      changePage: () => push("/about-us")
-    },
-    dispatch
-  );
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Songs);
+export default connect(mapStateToProps)(Songs);
