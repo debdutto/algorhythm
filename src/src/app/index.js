@@ -7,7 +7,7 @@ import Fibonacci from "../containers/fibonacci";
 // import CrimesAgainstWomen from "../containers/crimes-against-women";
 // import SuicideRates from "../containers/suicide-rates";
 // import LiteracyRates from "../containers/literacy-rate";
-// import AirQuality from "../containers/air-quality";
+import AirQuality from "../containers/air-quality";
 
 const appStyles = {
   height: "100vh",
@@ -42,8 +42,8 @@ const App = () => (
         component={CrimesAgainstWomen}
       />
       <Route exact path="/suicide-rates" component={SuicideRates} />
-      <Route exact path="/literacy-rates" component={LiteracyRates} />
-      <Route exact path="/air-quality" component={AirQuality} /> */}
+      <Route exact path="/literacy-rates" component={LiteracyRates} />*/}
+      <Route exact path="/air-quality" component={AirQuality} />
     </main>
   </div>
 );
