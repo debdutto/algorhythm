@@ -34,23 +34,16 @@ class Songs extends React.Component {
     return (
       <div>
         <div style={songStyles}>
-          <Grid container xs={12} spacing={16}>
+          <Grid container spacing={16} alignItems="center" justify="center">
             {SongList.map(el => {
               let song = [el];
               return (
-                <Grid
-                  container
-                  xs={3}
-                  key={el.url}
-                  alignItems="center"
-                  justify="center"
-                  justifyContent="center"
-                >
+                <Grid item xs={3} key={el.url}>
                   <Grid item xs={12}>
                     <AudioPlayer songs={song} />
                   </Grid>
-                  <Grid item xs={18}>
-                    <StyledButton variant="contained">
+                  <Grid item xs={12} style={{ textAlign: "center" }}>
+                    <StyledButton variant="contained" href={el.path}>
                       {"Go to " + el.artist.song}
                     </StyledButton>
                   </Grid>
