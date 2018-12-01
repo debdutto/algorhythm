@@ -7,11 +7,19 @@ import { withStyles } from "@material-ui/core/styles";
 import piPlaces from "../pi/pi-places.json";
 import Grid from "@material-ui/core/Grid";
 
-const songStyles = {
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  height: "60vh"
+const gridStyles = {
+  container: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: "20vh auto"
+  },
+  item: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: "10vh auto"
+  }
 };
 
 const numberStyles = {
@@ -31,41 +39,28 @@ const StyledButton = withStyles({
 
 class Songs extends React.Component {
   render() {
+    let { classes } = this.props;
+
     return (
-      <div>
-        <div style={songStyles}>
-          <Grid container spacing={16} alignItems="center" justify="center">
-            {SongList.map(el => {
-              let song = [el];
-              return (
-                <Grid item xs={3} key={el.url}>
-                  <Grid item xs={12}>
-                    <AudioPlayer songs={song} />
-                  </Grid>
-                  <Grid item xs={12} style={{ textAlign: "center" }}>
-                    <StyledButton variant="contained" href={el.path}>
-                      {"Go to " + el.artist.song}
-                    </StyledButton>
-                  </Grid>
-                </Grid>
-              );
-            })}
-          </Grid>
-        </div>
-        <div style={numberStyles}>
-          <Grid item xs={12}>
-            {piPlaces.pi}
-          </Grid>
-        </div>
-      </div>
+      <Grid container spacing={16} classes={classes}>
+        {SongList.map(el => {
+          let song = [el];
+          return (
+            <Grid item lg={3} md={6} key={el.url}>
+              <Grid item xs={12}>
+                <AudioPlayer songs={song} />
+              </Grid>
+              <Grid item xs={12} style={{ textAlign: "center" }}>
+                <StyledButton variant="contained" href={el.path}>
+                  {"Go to " + el.artist.song}
+                </StyledButton>
+              </Grid>
+            </Grid>
+          );
+        })}
+      </Grid>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  count: state.counter.count,
-  isIncrementing: state.counter.isIncrementing,
-  isDecrementing: state.counter.isDecrementing
-});
-
-export default connect(mapStateToProps)(Songs);
+export default withStyles(gridStyles)(Songs);
