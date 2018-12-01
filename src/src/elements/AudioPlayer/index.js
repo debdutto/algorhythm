@@ -96,7 +96,9 @@ var AudioPlayer = ((_temp = _class = (function(_PureComponent) {
         playing: true
       });
 
-      _this.audio.play();
+      if (!_this.props.noPlay) {
+        _this.audio.play();
+      }
 
       _this.props.onPlay();
     };
@@ -389,7 +391,8 @@ var AudioPlayer = ((_temp = _class = (function(_PureComponent) {
   onPlay: function onPlay() {},
   onPause: function onPause() {},
   onPrevious: function onPrevious() {},
-  onNext: function onNext() {}
+  onNext: function onNext() {},
+  noPlay: false
 }),
 _temp);
 AudioPlayer.propTypes =
@@ -403,7 +406,8 @@ AudioPlayer.propTypes =
         onPlay: PropTypes.func,
         onPause: PropTypes.func,
         onPrevious: PropTypes.func,
-        onNext: PropTypes.func
+        onNext: PropTypes.func,
+        noPlay: PropTypes.boolean
       }
     : {};
 

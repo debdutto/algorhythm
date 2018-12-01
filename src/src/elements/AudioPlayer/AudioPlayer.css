@@ -99,6 +99,7 @@
 }
 .player-btn.big i {
   font-size: 18px;
+  padding: 8px 5px;
 }
 .player-btn.medium {
   width: 20px;
