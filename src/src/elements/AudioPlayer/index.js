@@ -407,7 +407,7 @@ AudioPlayer.propTypes =
         onPause: PropTypes.func,
         onPrevious: PropTypes.func,
         onNext: PropTypes.func,
-        noPlay: PropTypes.boolean
+        noPlay: PropTypes.bool
       }
     : {};
 
