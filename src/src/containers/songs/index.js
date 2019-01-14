@@ -1,10 +1,8 @@
 import React from "react";
-import { connect } from "react-redux";
 import AudioPlayer from "../../elements/AudioPlayer";
 import { SongList } from "../../modules/songs";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
-import piPlaces from "../pi/pi-places.json";
 import Grid from "@material-ui/core/Grid";
 
 const gridStyles = {
@@ -20,15 +18,6 @@ const gridStyles = {
     alignItems: "center",
     margin: "10vh auto"
   }
-};
-
-const numberStyles = {
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  height: "32vh",
-  margin: "1vw",
-  overflowX: "hidden"
 };
 
 const StyledButton = withStyles({

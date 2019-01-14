@@ -1,23 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { push } from "react-router-redux";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
 import MIDI from "midi.js";
 import crimeData from "./crime-data.json";
-import normalize from "../../modules/normalize";
 import { prepareNotes } from "../../modules/music";
-import AudioPlayer from "../../elements/AudioPlayer";
-import { SongList } from "../../modules/songs";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import {
-  increment,
-  incrementAsync,
-  decrement,
-  decrementAsync
-} from "../../modules/counter";
 
 const StyledButton = withStyles({
   root: {
