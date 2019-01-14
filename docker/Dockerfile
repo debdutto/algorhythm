@@ -25,4 +25,4 @@ RUN npm install && npm install -g serve && npm run build
 RUN rm -rf /tmp/* /root/.npm /root/.node-gyp
 
 #run the app using supervisor
-ENTRYPOINT /usr/bin/supervisord -n -c /etc/supervisord.conf
+CMD /usr/bin/supervisord -n -c /etc/supervisord.conf
