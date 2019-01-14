@@ -48,6 +48,9 @@ class AirQuality extends React.Component {
   }
 
   startMusic() {
+    if (play === true) {
+      return;
+    }
     play = true;
     if (play) {
       setTimeout(() => {
@@ -72,7 +75,7 @@ const barTime = 60000 / BPM;
 const delay = n => n * 0.25 * barTime;
 let notes = [];
 
-let play = true;
+let play = false;
 
 const playNote = (note, velocity, delay) => {
   MIDI.noteOn(0, MIDI.keyToNote[note], velocity, delay / 1000);

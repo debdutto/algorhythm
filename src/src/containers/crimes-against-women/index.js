@@ -34,13 +34,13 @@ const gridStyles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    margin: "20vh auto"
+    margin: "5vh auto"
   },
   item: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    margin: "10vh auto",
+    margin: "5vh auto",
     textAlign: "center"
   }
 };
@@ -84,13 +84,18 @@ class CrimesAgainstWomen extends React.Component {
           alignItems="center"
           classes={classes}
         >
-          <Grid item lg={12} md={2} style={{ textAlign: "center" }}>
-            <label>If you wish to see the data</label>
+          <Grid
+            item
+            lg={12}
+            md={2}
+            style={{ textAlign: "center", color: "#FFF" }}
+          >
+            <label>If you wish to see the data or checkout the repo</label>
           </Grid>
-          <Grid item lg={12} md={2} style={{ textAlign: "center" }}>
+          <Grid item lg={1} md={2} style={{ textAlign: "center" }}>
             <Link
               target="_blank"
-              to="https://github.com/Debdutto/algorhythm"
+              to="https://github.com/debdutto/algorhythm"
               style={{ textDecorationLine: "none" }}
             >
               <StyledButton variant="contained" size="large" color="primary">
@@ -98,10 +103,7 @@ class CrimesAgainstWomen extends React.Component {
               </StyledButton>
             </Link>
           </Grid>
-          <Grid item lg={12} md={2} style={{ textAlign: "center" }}>
-            <label>OR</label>
-          </Grid>
-          <Grid item lg={12} md={2} style={{ textAlign: "center" }}>
+          <Grid item lg={1} md={2} style={{ textAlign: "center" }}>
             <Link
               target="_blank"
               to="mailto:debduttoc@gmail.com"
@@ -116,10 +118,6 @@ class CrimesAgainstWomen extends React.Component {
       </Grid>
     );
   }
-
-  /* <button onClick={this.startMusic}>Start</button>
-
-          <button onClick={this.stopMusic}>Stop</button> */
 
   componentDidMount() {
     console.log("MIDIObj", MIDI);
@@ -138,6 +136,9 @@ class CrimesAgainstWomen extends React.Component {
   }
 
   startMusic() {
+    if (play === true) {
+      return;
+    }
     play = true;
     if (play) {
       setTimeout(() => {
@@ -162,7 +163,7 @@ const barTime = 60000 / BPM;
 const delay = n => n * 0.25 * barTime;
 let notes = [];
 
-let play = true;
+let play = false;
 
 const playNote = (note, velocity, delay) => {
   MIDI.noteOn(0, MIDI.keyToNote[note], velocity, delay / 1000);
