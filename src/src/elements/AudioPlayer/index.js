@@ -323,56 +323,56 @@ var AudioPlayer = ((_temp = _class = (function(_PureComponent) {
             },
             React.createElement("i", { className: playPauseClass })
           ),
-          React.createElement(
-            "button",
-            {
-              onClick: this.previous,
-              className: "player-btn medium",
-              title: "Previous Song"
-            },
-            React.createElement("i", { className: "fa fa-forward" })
-          ),
-          React.createElement(
-            "button",
-            {
-              onClick: this.next,
-              className: "player-btn medium",
-              title: "Next Song"
-            },
-            React.createElement("i", { className: "fa fa-forward" })
-          )
+          // React.createElement(
+          //   "button",
+          //   {
+          //     onClick: this.previous,
+          //     className: "player-btn medium",
+          //     title: "Previous Song"
+          //   },
+          //   React.createElement("i", { className: "fa fa-forward" })
+          // ),
+          // React.createElement(
+          //   "button",
+          //   {
+          //     onClick: this.next,
+          //     className: "player-btn medium",
+          //     title: "Next Song"
+          //   },
+          //   React.createElement("i", { className: "fa fa-forward" })
+          // )
         ),
-        React.createElement(
-          "div",
-          { className: "player-buttons play-controls" },
-          React.createElement(
-            "button",
-            {
-              className: "player-btn small volume",
-              onClick: this.toggleMute,
-              title: "Mute/Unmute"
-            },
-            React.createElement("i", { className: volumeClass })
-          ),
-          React.createElement(
-            "button",
-            {
-              className: repeatClass,
-              onClick: this.repeat,
-              title: "Repeat"
-            },
-            React.createElement("i", { className: "fa fa-repeat" })
-          ),
-          React.createElement(
-            "button",
-            {
-              className: randomClass,
-              onClick: this.randomize,
-              title: "Shuffle"
-            },
-            React.createElement("i", { className: "fa fa-random" })
-          )
-        )
+        // React.createElement(
+        //   "div",
+        //   { className: "player-buttons play-controls" },
+        //   React.createElement(
+        //     "button",
+        //     {
+        //       className: "player-btn small volume",
+        //       onClick: this.toggleMute,
+        //       title: "Mute/Unmute"
+        //     },
+        //     React.createElement("i", { className: volumeClass })
+        //   ),
+        //   React.createElement(
+        //     "button",
+        //     {
+        //       className: repeatClass,
+        //       onClick: this.repeat,
+        //       title: "Repeat"
+        //     },
+        //     React.createElement("i", { className: "fa fa-repeat" })
+        //   ),
+        //   React.createElement(
+        //     "button",
+        //     {
+        //       className: randomClass,
+        //       onClick: this.randomize,
+        //       title: "Shuffle"
+        //     },
+        //     React.createElement("i", { className: "fa fa-random" })
+        //   )
+        // )
       )
     );
   };
