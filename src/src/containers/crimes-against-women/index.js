@@ -6,6 +6,21 @@ import { prepareNotes } from "../../modules/music";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
+
+const cardStyles = {
+  card: {
+    maxWidth: 40
+  },
+  media: {
+    // ⚠️ object-fit is not supported by IE11.
+    objectFit: 'cover',
+  },
+}
 
 const StyledButton = withStyles({
   root: {
@@ -46,6 +61,31 @@ class CrimesAgainstWomen extends React.Component {
         classes={classes}
       >
         <Grid container spacing={16} justify="center" alignItems="center">
+          <Grid item lg={2} md={2} style={{ textAlign: "center" }}>
+            <Card className={cardStyles.card}>
+              <Link
+                target="_blank"
+                to="https://joyc.bandcamp.com/album/india-in-b-major"
+                style={{ textDecorationLine: "none" }}
+              >
+                <CardActionArea>
+                  <CardMedia
+                    component="img"
+                    alt="India in B Major"
+                    // className={cardStyles.media}
+                    // height="100"
+                    image="cover_sketch_small.jpg"
+                    title="India in B Major"
+                  />
+                </CardActionArea>
+              </Link>
+              <CardContent>
+                <Typography gutterBottom variant="headline" component="h2">
+                  Crimes Against Women
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
           <Grid item lg={1} md={2} style={{ textAlign: "center" }}>
             <StyledButton
               onClick={this.startMusic}
