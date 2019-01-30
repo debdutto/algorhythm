@@ -7,6 +7,9 @@ import Grid from "@material-ui/core/Grid";
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardMedia from '@material-ui/core/CardMedia';
+import { Link } from "react-router-dom";
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
 
 const cardStyles = {
   card: {
@@ -46,18 +49,29 @@ class Songs extends React.Component {
     return (
       <Grid container spacing={16} classes={classes}>
         <Grid spacing={16} classes={classes}>
-          <Card className={cardStyles.card}>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                alt="Contemplative Reptile"
-                className={cardStyles.media}
-                // height="100"
-                image="cover_sketch_small.jpg"
-                title="Contemplative Reptile"
-              />
-            </CardActionArea>
-          </Card>
+          <Link
+            target="_blank"
+            to="https://joyc.bandcamp.com/album/india-in-b-major"
+            style={{ textDecorationLine: "none" }}
+          >
+            <Card className={cardStyles.card}>
+              <CardActionArea>
+                <CardMedia
+                  component="img"
+                  alt="India in B Major"
+                  className={cardStyles.media}
+                  // height="100"
+                  image="cover_sketch_small.jpg"
+                  title="India in B Major"
+                />
+              </CardActionArea>
+              <CardContent>
+                <Typography gutterBottom variant="headline" component="h2" style={{ textAlign: "center" }}>
+                  India in B Major
+                </Typography>
+              </CardContent>
+            </Card>
+          </Link>
         </Grid>
         <Grid container={16} classes={classes}>
           {SongList.map(el => {
