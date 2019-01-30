@@ -4,7 +4,7 @@ export const SongList = [
     cover: false,
     path: "/crimes-against-women",
     artist: {
-      name: "##",
+      name: "India in B Major",
       song: "Crimes Against Women"
     }
   },
@@ -13,7 +13,7 @@ export const SongList = [
     cover: false,
     path: "/suicide-rates",
     artist: {
-      name: "##",
+      name: "India in B Major",
       song: "Suicide Rates"
     }
   },
@@ -22,7 +22,7 @@ export const SongList = [
     cover: false,
     path: "/literacy-rates",
     artist: {
-      name: "##",
+      name: "India in B Major",
       song: "Literacy Rates"
     }
   },
@@ -31,8 +31,8 @@ export const SongList = [
     cover: false,
     path: "/air-quality",
     artist: {
-      name: "##",
-      song: "Air Quality"
+      name: "India in B Major",
+      song: "Air Quality - Delhi"
     }
   }
 ];

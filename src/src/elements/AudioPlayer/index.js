@@ -290,11 +290,6 @@ var AudioPlayer = ((_temp = _class = (function(_PureComponent) {
         "div",
         { className: "artist-info" },
         React.createElement(
-          "h2",
-          { className: "artist-name" },
-          currentSong.artist.name
-        ),
-        React.createElement(
           "h3",
           { className: "artist-song-name" },
           currentSong.artist.song
