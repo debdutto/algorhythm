@@ -240,6 +240,14 @@ var AudioPlayer = ((_temp = _class = (function(_PureComponent) {
     });
   };
 
+  AudioPlayer.prototype.componentDidMount = function componentDidMount() {
+    this.props.onRef(this)
+  }
+
+  AudioPlayer.prototype.componentWillUnmount = function componentWillUnmount() {
+    this.props.onRef(undefined)
+  }
+
   AudioPlayer.prototype.render = function render() {
     var _this2 = this;
 

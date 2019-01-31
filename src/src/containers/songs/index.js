@@ -43,6 +43,15 @@ const StyledButton = withStyles({
 })(Button);
 
 class Songs extends React.Component {
+
+  managePlays(index) {
+    for(let i=0; i < SongList.length; i++) {
+      if(i!==index) {
+        SongList[i].component.pause()
+      }
+    }
+  }
+
   render() {
     let { classes } = this.props;
 
@@ -74,12 +83,12 @@ class Songs extends React.Component {
           </Link>
         </Grid>
         <Grid container={16} classes={classes}>
-          {SongList.map(el => {
+          {SongList.map((el, index) => {
             let song = [el];
             return (
               <Grid item lg={3} md={6} key={el.url}>
                 <Grid item xs={12}>
-                  <AudioPlayer songs={song} />
+                  <AudioPlayer songs={song} onRef={ref => (el.component = ref)} onPlay={this.managePlays.bind(this, index)}/>
                 </Grid>
                 <Grid item xs={12} style={{ textAlign: "center" }}>
                   <StyledButton variant="contained" href={el.path}>
