@@ -46,7 +46,7 @@ crimes2014.data.forEach(element => {
 // console.log(crimeData)
 
 let yearArr = [];
-for (i = 1; i <= 14; i++) {
+for (let i = 1; i <= 14; i++) {
   yearArr.push((2000 + i).toString());
 }
 

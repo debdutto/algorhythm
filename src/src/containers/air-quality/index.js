@@ -1,6 +1,11 @@
 import React from "react";
 import MIDI from "midi.js";
-import { prepareNotes, playNote } from "../../modules/music";
+import {
+  prepareNotes,
+  playNote,
+  startMusic,
+  stopMusic
+} from "../../modules/music";
 import AirQualityData from "./air-quality-index-delhi.json";
 import normalize from "../../modules/normalize";
 import Button from "@material-ui/core/Button";
@@ -88,20 +93,12 @@ class AirQuality extends React.Component {
             </Card>
           </Grid>
           <Grid item lg={1} md={2} style={{ textAlign: "center" }}>
-            <StyledButton
-              onClick={this.startMusic}
-              variant="contained"
-              size="large"
-            >
+            <StyledButton onClick={startMusic} variant="contained" size="large">
               Start
             </StyledButton>
           </Grid>
           <Grid item lg={1} md={2} style={{ textAlign: "center" }}>
-            <StyledButton
-              onClick={this.stopMusic}
-              variant="contained"
-              size="large"
-            >
+            <StyledButton onClick={stopMusic} variant="contained" size="large">
               Stop
             </StyledButton>
           </Grid>
@@ -167,24 +164,6 @@ class AirQuality extends React.Component {
       }
     });
   }
-
-  startMusic() {
-    if (play === true) {
-      return;
-    }
-    play = true;
-    if (play) {
-      setTimeout(() => {
-        playLeadIn(0, () => {
-          playMusic(getAirQUalityAtN(1), getAirQUalityAtN(2), 1);
-        });
-      }, 500);
-    }
-  }
-
-  stopMusic() {
-    play = false;
-  }
 }
 
 const baseBarCount = AirQualityData.airQualityIndex.length;
@@ -197,11 +176,6 @@ const delay = n => n * 0.25 * barTime;
 let notes = [];
 
 let play = false;
-
-const playNote = (note, velocity, delay) => {
-  MIDI.noteOn(0, MIDI.keyToNote[note], velocity, delay / 1000);
-  MIDI.noteOff(0, MIDI.keyToNote[note], barTime);
-};
 
 const playLeadIn = (n, callback) => {
   playNote(notes[14], 120, 0);
@@ -235,28 +209,22 @@ const playMusic = (current, next, n) => {
     }
   }
 
-  // playNote(notes[current % notes.length], (current % 97) + 30, 0)
   playNote(
     notes[current % notes.length],
     (current % 97) + 30,
     delay(current % 8)
   );
-  // playNote(
-  //   notes[(next * current) % notes.length],
-  //   ((next * current) % 97) + 30,
-  //   delay((next * current) % ((next * current) % 8))
-  // );
+
   playNote(
     notes[(next + current) % notes.length],
     ((next + current) % 97) + 30,
     delay((next + current) % ((next + current) % 8))
   );
-  // console.log(n)
+
   if (n <= AirQualityData.airQualityIndex.length && --barCount > 0 && play) {
     setTimeout(() => {
       playMusic(next, getAirQUalityAtN(n + 1), n + 1);
     }, barTime);
-    // console.log(barCount, n)
   } else if (play) {
     console.log("seriesReset", n);
     barCount = baseBarCount;

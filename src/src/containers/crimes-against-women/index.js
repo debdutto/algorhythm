@@ -2,7 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import MIDI from "midi.js";
 import crimeData from "./crime-data.json";
-import { prepareNotes, playNote } from "../../modules/music";
+import {
+  prepareNotes,
+  playNote,
+  startMusic,
+  stopMusic
+} from "../../modules/music";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -87,20 +92,12 @@ class CrimesAgainstWomen extends React.Component {
             </Card>
           </Grid>
           <Grid item lg={1} md={2} style={{ textAlign: "center" }}>
-            <StyledButton
-              onClick={this.startMusic}
-              variant="contained"
-              size="large"
-            >
+            <StyledButton onClick={startMusic} variant="contained" size="large">
               Start
             </StyledButton>
           </Grid>
           <Grid item lg={1} md={2} style={{ textAlign: "center" }}>
-            <StyledButton
-              onClick={this.stopMusic}
-              variant="contained"
-              size="large"
-            >
+            <StyledButton onClick={stopMusic} variant="contained" size="large">
               Stop
             </StyledButton>
           </Grid>
@@ -161,24 +158,6 @@ class CrimesAgainstWomen extends React.Component {
         notes = prepareNotes("B", 2, "major", 3);
       }
     });
-  }
-
-  startMusic() {
-    if (play === true) {
-      return;
-    }
-    play = true;
-    if (play) {
-      setTimeout(() => {
-        playLeadIn(0, () => {
-          playMusic(getCrimesAtN(1), getCrimesAtN(2), 1);
-        });
-      }, 500);
-    }
-  }
-
-  stopMusic() {
-    play = false;
   }
 }
 

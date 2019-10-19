@@ -3,8 +3,13 @@ import { push } from "react-router-redux";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import MIDI from "midi.js";
-import { prepareNotes, playNote } from "../../modules/music";
-
+import {
+  prepareNotes,
+  playNote,
+  startMusic,
+  stopMusic
+} from "../../modules/music";
+import BasicPlayer from "../../elements/basic-player-no-gui/index.js";
 import {
   increment,
   incrementAsync,
@@ -14,15 +19,7 @@ import {
 
 class NthSum extends React.Component {
   render() {
-    return (
-      <div>
-        <p>
-          <button onClick={this.startMusic}>Start</button>
-
-          <button onClick={this.stopMusic}>Stop</button>
-        </p>
-      </div>
-    );
+    return BasicPlayer();
   }
 
   componentDidMount() {
@@ -37,19 +34,6 @@ class NthSum extends React.Component {
         notes = prepareNotes("C");
       }
     });
-  }
-
-  startMusic() {
-    play = true;
-    if (play) {
-      setTimeout(() => {
-        playMusic(1, 1);
-      }, 500);
-    }
-  }
-
-  stopMusic() {
-    play = false;
   }
 }
 

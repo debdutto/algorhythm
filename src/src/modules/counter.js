@@ -9,7 +9,7 @@ const initialState = {
   isDecrementing: false
 };
 
-export default (state = initialState, action) => {
+export default (state = initialState, action = "NONE") => {
   switch (action.type) {
     case INCREMENT_REQUESTED:
       return {

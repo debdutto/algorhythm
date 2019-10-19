@@ -21,7 +21,7 @@ const nextLetter = s => {
       case 103:
         return "A"; // returning for "G"
       default:
-        return String.fromCharCode(++c);
+        return String.fromCharCode(c + 1);
     }
   });
 };
