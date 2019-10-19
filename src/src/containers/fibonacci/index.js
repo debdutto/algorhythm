@@ -3,7 +3,7 @@ import { push } from "react-router-redux";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import MIDI from "midi.js";
-import { prepareNotes } from "../../modules/music";
+import { prepareNotes, playNote } from "../../modules/music";
 import {
   increment,
   incrementAsync,
@@ -66,11 +66,6 @@ const delay = n => n * 0.125 * barTime;
 let notes = [];
 
 let play = true;
-
-const playNote = (note, velocity, delay) => {
-  MIDI.noteOn(0, MIDI.keyToNote[note], velocity, delay / 1000);
-  MIDI.noteOff(0, MIDI.keyToNote[note], barTime);
-};
 
 const playMusic = (current, next) => {
   playNote(notes[current % 21], (current % 97) + 30, delay(current % 8));

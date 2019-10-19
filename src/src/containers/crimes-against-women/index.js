@@ -2,15 +2,15 @@ import React from "react";
 import { Link } from "react-router-dom";
 import MIDI from "midi.js";
 import crimeData from "./crime-data.json";
-import { prepareNotes } from "../../modules/music";
+import { prepareNotes, playNote } from "../../modules/music";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Typography from "@material-ui/core/Typography";
 
 const cardStyles = {
   card: {
@@ -18,9 +18,9 @@ const cardStyles = {
   },
   media: {
     // ⚠️ object-fit is not supported by IE11.
-    objectFit: 'cover',
-  },
-}
+    objectFit: "cover"
+  }
+};
 
 const StyledButton = withStyles({
   root: {
@@ -192,11 +192,6 @@ const delay = n => n * 0.25 * barTime;
 let notes = [];
 
 let play = false;
-
-const playNote = (note, velocity, delay) => {
-  MIDI.noteOn(0, MIDI.keyToNote[note], velocity, delay / 1000);
-  MIDI.noteOff(0, MIDI.keyToNote[note], barTime);
-};
 
 const playLeadIn = (n, callback) => {
   playNote(notes[14], 120, 0);

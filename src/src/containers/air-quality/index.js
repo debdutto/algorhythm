@@ -1,17 +1,17 @@
 import React from "react";
 import MIDI from "midi.js";
-import { prepareNotes } from "../../modules/music";
+import { prepareNotes, playNote } from "../../modules/music";
 import AirQualityData from "./air-quality-index-delhi.json";
 import normalize from "../../modules/normalize";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { Link } from "react-router-dom";
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Typography from "@material-ui/core/Typography";
 
 const cardStyles = {
   card: {
@@ -19,9 +19,9 @@ const cardStyles = {
   },
   media: {
     // ⚠️ object-fit is not supported by IE11.
-    objectFit: 'cover',
-  },
-}
+    objectFit: "cover"
+  }
+};
 
 const StyledButton = withStyles({
   root: {
