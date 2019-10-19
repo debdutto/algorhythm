@@ -3,12 +3,7 @@ import { push } from "react-router-redux";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import MIDI from "midi.js";
-import {
-  prepareNotes,
-  playNote,
-  startMusic,
-  stopMusic
-} from "../../modules/music";
+import { prepareNotes, playNote } from "../../modules/music";
 import BasicPlayer from "../../elements/basic-player-no-gui/index.js";
 import {
   increment,
@@ -37,7 +32,6 @@ class Fibonacci extends React.Component {
   }
 }
 
-const firstNum = 1;
 const midNum = 1;
 const lastNum = 2;
 

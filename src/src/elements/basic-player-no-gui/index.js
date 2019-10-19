@@ -1,4 +1,6 @@
-export default () => {
+import React from "react";
+
+export default (startMusic, stopMusic) => {
   return (
     <div>
       <p>

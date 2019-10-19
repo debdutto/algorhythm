@@ -1,5 +1,6 @@
 import transformSharps from "./transform-sharps";
 import scale from "music-scale";
+import MIDI from "midi.js";
 
 export const prepareNotes = (
   selectedScale,
@@ -23,20 +24,34 @@ export const prepareNotes = (
   return notes;
 };
 
-export const playNote = (note, velocity, delay) => {
+export const playNote = (note, velocity, delay, BPM) => {
+  const barTime = 60000 / BPM;
   MIDI.noteOn(0, MIDI.keyToNote[note], velocity, delay / 1000);
   MIDI.noteOff(0, MIDI.keyToNote[note], barTime);
 };
 
-export const startMusic = (playFlag, playFunction) => {
-  if (playFlag === true) {
-    return;
+const playLeadIn = (n, notes, callback, BPM, leadInCount) => {
+  const barTime = 60000 / BPM;
+
+  playNote(notes[14], 120, 0);
+
+  leadInCount = leadInCount ? leadInCount : 0;
+
+  if (n++ < leadInCount) {
+    setTimeout(() => {
+      playLeadIn(n, callback);
+    }, barTime);
+  } else {
+    callback();
   }
-  playFlag = true;
-  if (playFlag) {
+};
+
+export const startMusic = (playFlag, playFunc, valueFunc) => {
+  if (!playFlag) {
+    playFlag = true;
     setTimeout(() => {
       playLeadIn(0, () => {
-        playMusic(playFunction(1), playFunction(2), 1);
+        playFunc(valueFunc(1), valueFunc(2), 1);
       });
     }, 500);
   }
@@ -45,4 +60,32 @@ export const startMusic = (playFlag, playFunction) => {
 
 export const stopMusic = () => {
   return false;
+};
+
+export const humanize4by4 = (current, next, n, notes, playExtra) => {
+  if (!notes) throw new Error("No notes defined");
+  if (!n) throw new Error("n is not defined");
+  if (!playExtra) playExtra = false;
+
+  if (!(n % 4)) {
+    if (current > next) {
+      playNote(
+        notes[(current - next) % notes.length],
+        ((current - next) % 37) + 90,
+        0
+      );
+    } else {
+      playNote(
+        notes[(next - current) % notes.length],
+        ((next - current) % 37) + 90,
+        0
+      );
+    }
+    if (playExtra)
+      playNote(
+        notes[(2 * current) % notes.length],
+        ((2 * current) % 37) + 90,
+        0
+      );
+  }
 };
