@@ -257,10 +257,7 @@ var AudioPlayer = ((_temp = _class = (function (_PureComponent) {
         currentSong = _state.active,
         progress = _state.progress,
         active = _state.active,
-        playing = _state.playing,
-        mute = _state.mute,
-        random = _state.random,
-        repeat = _state.repeat;
+        playing = _state.playing
 
       var coverClass = classnames({
         "player-cover": true,
@@ -394,8 +391,7 @@ var AudioPlayer = ((_temp = _class = (function (_PureComponent) {
   }),
   _temp);
 AudioPlayer.propTypes =
-  process.env.NODE_ENV !== "production" ?
-  {
+  process.env.NODE_ENV !== "production" ? {
     songs: PropTypes.array.isRequired,
     autoplay: PropTypes.bool,
     onTimeUpdate: PropTypes.func,
@@ -406,7 +402,6 @@ AudioPlayer.propTypes =
     onPrevious: PropTypes.func,
     onNext: PropTypes.func,
     noPlay: PropTypes.bool
-  } :
-  {};
+  } : {};
 
 export default AudioPlayer;
