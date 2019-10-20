@@ -5,8 +5,10 @@ import {
   playNote,
   startMusic,
   stopMusic,
-  humanize4by4
+  humanize4by4,
+  delay
 } from "../../modules/music";
+import PlayParams from "../../models/playParams";
 import literacyData from "./literacy-rate.json";
 import normalize from "../../modules/normalize";
 import { withStyles } from "@material-ui/core/styles";
@@ -17,27 +19,29 @@ class LiteracyRates extends React.Component {
   constructor() {
     super();
     this.headlineText = "Literacy Rates";
+
+    this.notes = prepareNotes("B", 2, "major", 4);
+    literacyData.literacy = normalize(literacyData.literacy, 0, 100);
+    this.play = false;
+    this.playParams = new PlayParams(
+      startMusic,
+      this.play,
+      this.notes,
+      playMusic,
+      getLiteracyAtN,
+      stopMusic
+    );
   }
 
   render() {
     let { classes } = this.props;
-    console.log(this.headlineText);
-    return ComplexPlayer(startMusic, stopMusic, classes, this.headlineText);
+    return ComplexPlayer(this.playParams, classes, this.headlineText);
   }
 
   componentDidMount() {
-    console.log("MIDIObj", MIDI);
     MIDI.loadPlugin({
       soundfontUrl: process.env.PUBLIC_URL + "/soundfont/",
-      instrument: "acoustic_grand_piano",
-      onprogress: function(state, progress) {
-        console.log(state, progress);
-      },
-      onsuccess: function() {
-        // console.log(piPlaces)
-        literacyData.literacy = normalize(literacyData.literacy, 0, 100);
-        notes = prepareNotes("B", 2, "major", 4);
-      }
+      instrument: "acoustic_grand_piano"
     });
   }
 }
@@ -45,39 +49,31 @@ class LiteracyRates extends React.Component {
 const baseBarCount = literacyData.literacy.length;
 let barCount = baseBarCount;
 
-const BPM = 70;
-const barTime = 60000 / BPM;
-const delay = n => n * 0.25 * barTime;
-let notes = [];
-
-let play = false;
-
-const playMusic = (current, next, n) => {
-  humanize4by4();
-
-  playNote(notes[current % notes.length], current % 97, delay(current % 8));
-  // playNote(
-  //   notes[(next * current) % notes.length],
-  //   ((next * current) % 97) + 30,
-  //   delay((next * current) % ((next * current) % 8))
-  // );
+const playMusic = (current, next, n, playParams) => {
+  humanize4by4(current, next, n, playParams);
   playNote(
-    notes[(next + current) % notes.length],
-    ((next + current) % 97) + 30,
-    delay((next + current) % ((next + current) % 8))
+    playParams.notes[current % playParams.notes.length],
+    current % 97,
+    delay(current % 8, playParams.barTime),
+    playParams
   );
-  // console.log(n)
-  if (n <= literacyData.literacy.length && --barCount > 0 && play) {
+  playNote(
+    playParams.notes[(next + current) % playParams.notes.length],
+    ((next + current) % 97) + 30,
+    delay((next + current) % ((next + current) % 8), playParams.barTime),
+    playParams
+  );
+  if (n <= literacyData.literacy.length && --barCount > 0 && playParams.play) {
     setTimeout(() => {
-      playMusic(next, getLiteracyAtN(n + 1), n + 1);
-    }, barTime);
-    // console.log(barCount, n)
-  } else if (play) {
-    console.log("seriesReset", n);
+      playMusic(next, getLiteracyAtN(n + 1), n + 1, playParams);
+    }, playParams.barTime);
+    console.log("barCount: ", barCount);
+  } else if (playParams.play) {
+    console.log("SeriesReset", n);
     barCount = baseBarCount;
     setTimeout(() => {
-      playMusic(getLiteracyAtN(1), getLiteracyAtN(2), 1);
-    }, barTime);
+      playMusic(getLiteracyAtN(1), getLiteracyAtN(2), 1, playParams);
+    }, playParams.barTime);
   }
 };
 

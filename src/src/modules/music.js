@@ -19,8 +19,6 @@ export const prepareNotes = (
     let selectedScaleArr = scale(selectedTone, selectedScale + octave);
     notes.push(...transformSharps(selectedScaleArr));
   }
-  // for()
-  console.log("Notes: ", notes, notes.length);
   return notes;
 };
 
@@ -44,14 +42,12 @@ const playLeadIn = (n, callback, playParams, leadInCount) => {
 };
 
 export const startMusic = playParams => {
-  console.log(playParams);
   if (!playParams.play) {
     playParams.play = true;
     setTimeout(() => {
       playLeadIn(
         0,
         () => {
-          console.log("here");
           playParams.playMusic(
             playParams.valueFunc(1),
             playParams.valueFunc(2),
@@ -70,10 +66,12 @@ export const stopMusic = playParams => {
   playParams.play = false;
 };
 
+export const delay = (n, barTime) => n * 0.25 * barTime;
+
 export const humanize4by4 = (current, next, n, playParams) => {
   if (!playParams.notes) throw new Error("No notes defined");
   if (!n) throw new Error("n is not defined");
-  if (!playParams.playExtra) playParams.playExtra = false;
+  // if (!playParams.playExtra) console.log("No Humanizing")
 
   if (!(n % 4)) {
     if (current > next) {

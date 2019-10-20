@@ -6,8 +6,10 @@ import {
   playNote,
   startMusic,
   stopMusic,
-  humanize4by4
+  humanize4by4,
+  delay
 } from "../../modules/music";
+import PlayParams from "../../models/playParams";
 import { withStyles } from "@material-ui/core/styles";
 import { GridStyles } from "../../styles";
 import ComplexPlayer from "../../elements/complex-player";
@@ -16,27 +18,31 @@ class CrimesAgainstWomen extends React.Component {
   constructor() {
     super();
     this.headlineText = "Crimes Against Women";
+
+    this.notes = prepareNotes("B", 2, "major", 3);
+    this.play = false;
+    this.playParams = new PlayParams(
+      startMusic,
+      this.play,
+      this.notes,
+      playMusic,
+      getCrimesAtN,
+      stopMusic,
+      80,
+      true
+    );
   }
 
   render() {
     let { classes } = this.props;
 
-    return ComplexPlayer(startMusic, stopMusic, classes, this.headlineText);
+    return ComplexPlayer(this.playParams, classes, this.headlineText);
   }
 
   componentDidMount() {
-    console.log("MIDIObj", MIDI);
     MIDI.loadPlugin({
       soundfontUrl: process.env.PUBLIC_URL + "/soundfont/",
-      instrument: "acoustic_grand_piano",
-      onprogress: function(state, progress) {
-        console.log(state, progress);
-      },
-      onsuccess: function() {
-        // console.log(piPlaces)
-        // crimeData.crimes = normalize(crimeData.crimes);
-        notes = prepareNotes("B", 2, "major", 3);
-      }
+      instrument: "acoustic_grand_piano"
     });
   }
 }
@@ -44,47 +50,39 @@ class CrimesAgainstWomen extends React.Component {
 const baseBarCount = crimeData.crimes.length;
 let barCount = baseBarCount;
 
-const BPM = 80;
-const barTime = 60000 / BPM;
-const delay = n => n * 0.25 * barTime;
-let notes = [];
+const playMusic = (current, next, n, playParams) => {
+  humanize4by4(current, next, n, playParams);
 
-let play = false;
-
-const playMusic = (current, next, n) => {
-  humanize4by4();
-
-  console.log(
-    notes[(next + current) % notes.length],
-    notes[current % notes.length]
-  );
   playNote(
-    notes[current % notes.length],
+    playParams.notes[current % playParams.notes.length],
     current % 97,
-    delay(current % (current % 16))
+    delay(current % (current % 16), playParams.barTime),
+    playParams
   );
   playNote(
-    notes[(next * current) % notes.length],
+    playParams.notes[(next * current) % playParams.notes.length],
     ((next * current) % 97) + 30,
-    delay((next * current) % ((next * current) % 16))
+    delay((next * current) % ((next * current) % 16), playParams.barTime),
+    playParams
   );
   playNote(
-    notes[(next + current) % notes.length],
+    playParams.notes[(next + current) % playParams.notes.length],
     ((next + current) % 97) + 30,
-    delay((next + current) % ((next + current) % 16))
+    delay((next + current) % ((next + current) % 16), playParams.barTime),
+    playParams
   );
-  // console.log(n)
-  if (n <= crimeData.crimes.length && --barCount > 0 && play) {
+
+  if (n <= crimeData.crimes.length && --barCount > 0 && playParams.play) {
     setTimeout(() => {
-      playMusic(next, getCrimesAtN(n + 1), n + 1);
-    }, barTime);
-    console.log(barCount, n);
-  } else if (play) {
-    console.log("seriesReset", n);
+      playMusic(next, getCrimesAtN(n + 1), n + 1, playParams);
+    }, playParams.barTime);
+    console.log("barCount: ", barCount);
+  } else if (playParams.play) {
+    console.log("SeriesReset", n);
     barCount = baseBarCount;
     setTimeout(() => {
-      playMusic(getCrimesAtN(1), getCrimesAtN(2), 1);
-    }, barTime);
+      playMusic(getCrimesAtN(1), getCrimesAtN(2), 1, playParams);
+    }, playParams.barTime);
   }
 };
 

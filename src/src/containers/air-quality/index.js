@@ -5,7 +5,8 @@ import {
   playNote,
   startMusic,
   stopMusic,
-  humanize4by4
+  humanize4by4,
+  delay
 } from "../../modules/music";
 import PlayParams from "../../models/playParams";
 import AirQualityData from "./air-quality-index-delhi.json";
@@ -55,8 +56,6 @@ class AirQuality extends React.Component {
 
 const baseBarCount = AirQualityData.airQualityIndex.length;
 let barCount = baseBarCount;
-
-const delay = (n, barTime) => n * 0.25 * barTime;
 
 const playMusic = (current, next, n, playParams) => {
   // playNote(notes[sum % notes.length], (sum % 97) + 30, delay(sum % 8))

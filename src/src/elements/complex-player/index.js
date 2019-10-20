@@ -9,8 +9,6 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 
 export default (playParams, classes, headlineText) => {
-  console.log(headlineText);
-  console.log(playParams);
   let startBinded = playParams.startMusic.bind({}, playParams);
   let stopBinded = playParams.stopMusic.bind({}, playParams);
   return (
