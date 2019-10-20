@@ -5,4 +5,4 @@ jobs:
       - image: circleci/node:8.16
     steps:
       - checkout
-      - run: cd src
+      - run: cd src && ls
