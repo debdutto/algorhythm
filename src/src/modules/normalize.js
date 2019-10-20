@@ -1,6 +1,6 @@
 const jstat = require("jstat").jStat;
 
-module.exports = (arr, rangeStart, rangeEnd) => {
+module.exports = (arr, rangeEnd) => {
   console.log("Normalizing: ", arr);
 
   rangeStart = rangeStart ? rangeStart : 1;
