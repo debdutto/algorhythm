@@ -7,6 +7,7 @@ import {
   stopMusic,
   humanize4by4
 } from "../../modules/music";
+import PlayParams from "../../models/playParams";
 import AirQualityData from "./air-quality-index-delhi.json";
 import normalize from "../../modules/normalize";
 import { withStyles } from "@material-ui/core/styles";
@@ -17,12 +18,27 @@ class AirQuality extends React.Component {
   constructor() {
     super();
     this.headlineText = "Air Quality - Delhi";
+    this.notes = prepareNotes("B", 2, "major", 4);
+    AirQualityData.airQualityIndex = normalize(
+      AirQualityData.airQualityIndex,
+      0,
+      100
+    );
+    this.play = false;
+    this.playParams = new PlayParams(
+      startMusic,
+      this.play,
+      this.notes,
+      playMusic,
+      getAirQUalityAtN,
+      stopMusic
+    );
   }
 
   render() {
     let { classes } = this.props;
 
-    return ComplexPlayer(startMusic, stopMusic, classes);
+    return ComplexPlayer(this.playParams, classes, this.headlineText);
   }
 
   componentDidMount() {
@@ -32,15 +48,6 @@ class AirQuality extends React.Component {
       instrument: "acoustic_grand_piano",
       onprogress: function(state, progress) {
         console.log(state, progress);
-      },
-      onsuccess: function() {
-        // console.log(piPlaces)
-        notes = prepareNotes("B", 2, "major", 4);
-        AirQualityData.airQualityIndex = normalize(
-          AirQualityData.airQualityIndex,
-          0,
-          100
-        );
       }
     });
   }
@@ -49,41 +56,44 @@ class AirQuality extends React.Component {
 const baseBarCount = AirQualityData.airQualityIndex.length;
 let barCount = baseBarCount;
 
-const BPM = 70;
-const barTime = 60000 / BPM;
-const delay = n => n * 0.25 * barTime;
-let notes = [];
+const delay = (n, barTime) => n * 0.25 * barTime;
 
-let play = false;
-
-const playMusic = (current, next, n) => {
+const playMusic = (current, next, n, playParams) => {
   // playNote(notes[sum % notes.length], (sum % 97) + 30, delay(sum % 8))
   // playNote(notes[(sum % 11) + 10], (sum % 97) + 30, delay(sum % 4))
-
-  humanize4by4();
-
+  console.log("here1", current, next, n);
+  humanize4by4(current, next, n, playParams);
+  console.log("here2", playParams);
   playNote(
-    notes[current % notes.length],
+    playParams.notes[current % playParams.notes.length],
     (current % 97) + 30,
-    delay(current % 8)
+    delay(current % 8, playParams.barTime),
+    playParams
   );
-
+  console.log("here3");
   playNote(
-    notes[(next + current) % notes.length],
+    playParams.notes[(next + current) % playParams.notes.length],
     ((next + current) % 97) + 30,
-    delay((next + current) % ((next + current) % 8))
+    delay((next + current) % ((next + current) % 8), playParams.barTime),
+    playParams
   );
-
-  if (n <= AirQualityData.airQualityIndex.length && --barCount > 0 && play) {
+  console.log("here4", playParams);
+  if (
+    n <= AirQualityData.airQualityIndex.length &&
+    --barCount > 0 &&
+    playParams.play
+  ) {
+    console.log("here5");
     setTimeout(() => {
-      playMusic(next, getAirQUalityAtN(n + 1), n + 1);
-    }, barTime);
-  } else if (play) {
+      playMusic(next, getAirQUalityAtN(n + 1), n + 1, playParams);
+    }, playParams.barTime);
+  } else if (playParams.play) {
+    console.log("here6");
     console.log("seriesReset", n);
     barCount = baseBarCount;
     setTimeout(() => {
-      playMusic(getAirQUalityAtN(1), getAirQUalityAtN(2), 1);
-    }, barTime);
+      playMusic(getAirQUalityAtN(1), getAirQUalityAtN(2), 1, playParams);
+    }, playParams.barTime);
   }
 };
 

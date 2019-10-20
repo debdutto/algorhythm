@@ -21,8 +21,8 @@ class LiteracyRates extends React.Component {
 
   render() {
     let { classes } = this.props;
-
-    return ComplexPlayer(startMusic, stopMusic, classes);
+    console.log(this.headlineText);
+    return ComplexPlayer(startMusic, stopMusic, classes, this.headlineText);
   }
 
   componentDidMount() {

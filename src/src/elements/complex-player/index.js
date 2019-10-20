@@ -8,7 +8,11 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 
-export default (startMusic, stopMusic, classes) => {
+export default (playParams, classes, headlineText) => {
+  console.log(headlineText);
+  console.log(playParams);
+  let startBinded = playParams.startMusic.bind({}, playParams);
+  let stopBinded = playParams.stopMusic.bind({}, playParams);
   return (
     <Grid
       container
@@ -19,7 +23,7 @@ export default (startMusic, stopMusic, classes) => {
     >
       <Grid container spacing={16} justify="center" alignItems="center">
         <Grid item lg={2} md={2} style={{ textAlign: "center" }}>
-          <Card className={CardStyles.card}>
+          <Card classes={CardStyles.card}>
             <Link
               target="_blank"
               to="https://joyc.bandcamp.com/album/india-in-b-major"
@@ -38,18 +42,18 @@ export default (startMusic, stopMusic, classes) => {
             </Link>
             <CardContent>
               <Typography gutterBottom variant="headline" component="h2">
-                this.headlineText
+                {headlineText}
               </Typography>
             </CardContent>
           </Card>
         </Grid>
         <Grid item lg={1} md={2} style={{ textAlign: "center" }}>
-          <StyledButton onClick={startMusic} variant="contained" size="large">
+          <StyledButton onClick={startBinded} variant="contained" size="large">
             Start
           </StyledButton>
         </Grid>
         <Grid item lg={1} md={2} style={{ textAlign: "center" }}>
-          <StyledButton onClick={stopMusic} variant="contained" size="large">
+          <StyledButton onClick={stopBinded} variant="contained" size="large">
             Stop
           </StyledButton>
         </Grid>

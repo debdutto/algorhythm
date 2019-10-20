@@ -24,68 +24,79 @@ export const prepareNotes = (
   return notes;
 };
 
-export const playNote = (note, velocity, delay, BPM) => {
-  const barTime = 60000 / BPM;
+export const playNote = (note, velocity, delay, playParams) => {
   MIDI.noteOn(0, MIDI.keyToNote[note], velocity, delay / 1000);
-  MIDI.noteOff(0, MIDI.keyToNote[note], barTime);
+  MIDI.noteOff(0, MIDI.keyToNote[note], playParams.barTime);
 };
 
-const playLeadIn = (n, notes, callback, BPM, leadInCount) => {
-  const barTime = 60000 / BPM;
-
-  playNote(notes[14], 120, 0);
+const playLeadIn = (n, callback, playParams, leadInCount) => {
+  playNote(playParams.notes[14], 120, 0, playParams);
 
   leadInCount = leadInCount ? leadInCount : 0;
 
   if (n++ < leadInCount) {
     setTimeout(() => {
       playLeadIn(n, callback);
-    }, barTime);
+    }, playParams.barTime);
   } else {
     callback();
   }
 };
 
-export const startMusic = (playFlag, playFunc, valueFunc) => {
-  if (!playFlag) {
-    playFlag = true;
+export const startMusic = playParams => {
+  console.log(playParams);
+  if (!playParams.play) {
+    playParams.play = true;
     setTimeout(() => {
-      playLeadIn(0, () => {
-        playFunc(valueFunc(1), valueFunc(2), 1);
-      });
+      playLeadIn(
+        0,
+        () => {
+          console.log("here");
+          playParams.playMusic(
+            playParams.valueFunc(1),
+            playParams.valueFunc(2),
+            1,
+            playParams
+          );
+        },
+        playParams
+      );
     }, 500);
   }
-  return playFlag;
+  return playParams.play;
 };
 
-export const stopMusic = () => {
-  return false;
+export const stopMusic = playParams => {
+  playParams.play = false;
 };
 
-export const humanize4by4 = (current, next, n, notes, playExtra) => {
-  if (!notes) throw new Error("No notes defined");
+export const humanize4by4 = (current, next, n, playParams) => {
+  if (!playParams.notes) throw new Error("No notes defined");
   if (!n) throw new Error("n is not defined");
-  if (!playExtra) playExtra = false;
+  if (!playParams.playExtra) playParams.playExtra = false;
 
   if (!(n % 4)) {
     if (current > next) {
       playNote(
-        notes[(current - next) % notes.length],
+        playParams.notes[(current - next) % playParams.notes.length],
         ((current - next) % 37) + 90,
-        0
+        0,
+        playParams
       );
     } else {
       playNote(
-        notes[(next - current) % notes.length],
+        playParams.notes[(next - current) % playParams.notes.length],
         ((next - current) % 37) + 90,
-        0
+        0,
+        playParams
       );
     }
-    if (playExtra)
+    if (playParams.playExtra)
       playNote(
-        notes[(2 * current) % notes.length],
+        playParams.notes[(2 * current) % playParams.notes.length],
         ((2 * current) % 37) + 90,
-        0
+        0,
+        playParams
       );
   }
 };

@@ -21,8 +21,7 @@ class SuicideRates extends React.Component {
 
   render() {
     let { classes } = this.props;
-
-    return ComplexPlayer(startMusic, stopMusic, classes);
+    return ComplexPlayer(startMusic, stopMusic, classes, this.headlineText);
   }
 
   componentDidMount() {
