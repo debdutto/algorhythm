@@ -3,7 +3,8 @@ import { push } from "react-router-redux";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import MIDI from "midi.js";
-import { prepareNotes } from "../../modules/music";
+import { prepareNotes, playNote } from "../../modules/music";
+import BasicPlayer from "../../elements/basic-player-no-gui/index.js";
 import {
   increment,
   incrementAsync,
@@ -13,15 +14,7 @@ import {
 
 class Fibonacci extends React.Component {
   render() {
-    return (
-      <div>
-        <p>
-          <button onClick={this.startMusic}>Start</button>
-
-          <button onClick={this.stopMusic}>Stop</button>
-        </p>
-      </div>
-    );
+    return BasicPlayer();
   }
 
   componentDidMount() {
@@ -37,22 +30,8 @@ class Fibonacci extends React.Component {
       }
     });
   }
-
-  startMusic() {
-    play = true;
-    if (play) {
-      setTimeout(() => {
-        playMusic(midNum, generateFibonacci(firstNum, midNum, 1)[0]);
-      }, 500);
-    }
-  }
-
-  stopMusic() {
-    play = false;
-  }
 }
 
-const firstNum = 1;
 const midNum = 1;
 const lastNum = 2;
 
@@ -66,11 +45,6 @@ const delay = n => n * 0.125 * barTime;
 let notes = [];
 
 let play = true;
-
-const playNote = (note, velocity, delay) => {
-  MIDI.noteOn(0, MIDI.keyToNote[note], velocity, delay / 1000);
-  MIDI.noteOff(0, MIDI.keyToNote[note], barTime);
-};
 
 const playMusic = (current, next) => {
   playNote(notes[current % 21], (current % 97) + 30, delay(current % 8));

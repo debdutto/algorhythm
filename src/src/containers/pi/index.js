@@ -3,8 +3,9 @@ import { push } from "react-router-redux";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import MIDI from "midi.js";
-import { prepareNotes } from "../../modules/music";
+import { prepareNotes, playNote } from "../../modules/music";
 import piPlaces from "./pi-places.json";
+import BasicPlayer from "../../elements/basic-player-no-gui/index.js";
 import {
   increment,
   incrementAsync,
@@ -14,15 +15,7 @@ import {
 
 class Pi extends React.Component {
   render() {
-    return (
-      <div>
-        <p>
-          <button onClick={this.startMusic}>Start</button>
-
-          <button onClick={this.stopMusic}>Stop</button>
-        </p>
-      </div>
-    );
+    return BasicPlayer();
   }
 
   componentDidMount() {
@@ -39,22 +32,6 @@ class Pi extends React.Component {
       }
     });
   }
-
-  startMusic() {
-    if (play === true) {
-      return;
-    }
-    play = true;
-    if (play) {
-      setTimeout(() => {
-        playMusic(getPiAtN(1), getPiAtN(2), 1);
-      }, 500);
-    }
-  }
-
-  stopMusic() {
-    play = false;
-  }
 }
 
 const baseBarCount = 80;
@@ -67,11 +44,6 @@ const delay = n => n * 0.25 * barTime;
 let notes = [];
 
 let play = false;
-
-const playNote = (note, velocity, delay) => {
-  MIDI.noteOn(0, MIDI.keyToNote[note], velocity, delay / 1000);
-  MIDI.noteOff(0, MIDI.keyToNote[note], barTime);
-};
 
 const playMusic = (current, next, n) => {
   // playNote(notes[sum % 21], (sum % 97) + 30, delay(sum % 8))
