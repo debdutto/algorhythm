@@ -13,3 +13,4 @@ docker/
 !docker/Dockerfile
 !docker/etc
 /.changelog
+.scannerwork

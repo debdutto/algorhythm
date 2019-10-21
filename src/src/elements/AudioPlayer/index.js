@@ -241,12 +241,12 @@ var AudioPlayer = ((_temp = _class = (function(_PureComponent) {
   };
 
   AudioPlayer.prototype.componentDidMount = function componentDidMount() {
-    this.props.onRef(this)
-  }
+    this.props.onRef(this);
+  };
 
   AudioPlayer.prototype.componentWillUnmount = function componentWillUnmount() {
-    this.props.onRef(undefined)
-  }
+    this.props.onRef(undefined);
+  };
 
   AudioPlayer.prototype.render = function render() {
     var _this2 = this;
@@ -255,10 +255,7 @@ var AudioPlayer = ((_temp = _class = (function(_PureComponent) {
       currentSong = _state.active,
       progress = _state.progress,
       active = _state.active,
-      playing = _state.playing,
-      mute = _state.mute,
-      random = _state.random,
-      repeat = _state.repeat;
+      playing = _state.playing;
 
     var coverClass = classnames({
       "player-cover": true,
@@ -271,35 +268,27 @@ var AudioPlayer = ((_temp = _class = (function(_PureComponent) {
       "fa-pause": playing
     });
 
-    var volumeClass = classnames({
-      fa: true,
-      "fa-volume-up": !mute,
-      "fa-volume-off": mute
-    });
-
-    var randomClass = classnames({
-      "player-btn small random": true,
-      active: random
-    });
-
-    var repeatClass = classnames({
-      "player-btn small repeat": true,
-      active: repeat
-    });
-
     return React.createElement(
       "div",
-      { className: "player-container" },
+      {
+        className: "player-container"
+      },
       React.createElement("div", {
         className: coverClass,
-        style: { backgroundImage: "url(" + (currentSong.cover || "") + ")" }
+        style: {
+          backgroundImage: "url(" + (currentSong.cover || "") + ")"
+        }
       }),
       React.createElement(
         "div",
-        { className: "artist-info" },
+        {
+          className: "artist-info"
+        },
         React.createElement(
           "h3",
-          { className: "artist-song-name" },
+          {
+            className: "artist-song-name"
+          },
           currentSong.artist.song
         )
       ),
@@ -313,15 +302,21 @@ var AudioPlayer = ((_temp = _class = (function(_PureComponent) {
         },
         React.createElement("span", {
           className: "player-progress-value",
-          style: { width: progress + "%" }
+          style: {
+            width: progress + "%"
+          }
         })
       ),
       React.createElement(
         "div",
-        { className: "player-options" },
+        {
+          className: "player-options"
+        },
         React.createElement(
           "div",
-          { className: "player-buttons player-controls" },
+          {
+            className: "player-buttons player-controls"
+          },
           React.createElement(
             "button",
             {
@@ -329,8 +324,10 @@ var AudioPlayer = ((_temp = _class = (function(_PureComponent) {
               className: "player-btn big",
               title: "Play/Pause"
             },
-            React.createElement("i", { className: playPauseClass })
-          ),
+            React.createElement("i", {
+              className: playPauseClass
+            })
+          )
           // React.createElement(
           //   "button",
           //   {
@@ -349,7 +346,7 @@ var AudioPlayer = ((_temp = _class = (function(_PureComponent) {
           //   },
           //   React.createElement("i", { className: "fa fa-forward" })
           // )
-        ),
+        )
         // React.createElement(
         //   "div",
         //   { className: "player-buttons play-controls" },
@@ -398,6 +395,7 @@ var AudioPlayer = ((_temp = _class = (function(_PureComponent) {
   noPlay: false
 }),
 _temp);
+
 AudioPlayer.propTypes =
   process.env.NODE_ENV !== "production"
     ? {
